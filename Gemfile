@@ -27,6 +27,7 @@ group :development do
 end
 
 group :development, :test do
+  gem "byebug"
   gem "capybara"
   gem "factory_bot_rails"
   gem "faker"
@@ -34,10 +35,9 @@ group :development, :test do
   gem "rspec-rails"
   gem "rubocop"
   gem "simplecov"
-  gem "byebug"
 end
 
 group :test do
-  gem "shoulda-matchers"
   gem "guard-rspec", require: false
+  gem "shoulda-matchers"
 end
