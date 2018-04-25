@@ -67,4 +67,6 @@ guard :rspec, cmd: "spring rspec" do
   watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
     Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
   end
+  
+  watch(%r{^lib/(.+)\.rb$}) { |m| rspec.spec.call("validators/#{m[1]}")}
 end
