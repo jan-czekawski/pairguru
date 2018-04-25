@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :comment do
     content { Faker::Friends.quote }
-    user { User.all.sample }
-    movie { Movie.all.sample }
+    user { create(:user) }
+    movie { create(:movie) }
   end
 end
