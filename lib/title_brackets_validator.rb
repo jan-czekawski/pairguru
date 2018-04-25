@@ -1,13 +1,11 @@
 class TitleBracketsValidator < ActiveModel::Validator
   def validate(record)
-    if unpaired_brackets(record)
-      record.errors.add :base, "This record is invalid"
-    end
+    record.errors.add :base, "Invalid record" if unpaired_brackets?(record)
   end
 
   private
 
-  def unpaired_brackets(movie)
+  def unpaired_brackets?(movie)
     # define pair of bracket chars in a hash
     pairs = { "{" => "}", "[" => "]", "(" => ")" }
     # create hash - with 0 as default - to increase num of opening brackets
@@ -39,14 +37,12 @@ class TitleBracketsValidator < ActiveModel::Validator
   def handle_closing(pairs, bracket_needs_pair, char)
     if pairs.value?(char)
       opening_bracket = pairs.key(char)
-      # check if number of corresponding opening bracket is > 0
-      if bracket_needs_pair[opening_bracket] > 0
-        # found a pair => decrement opening bracket's count
-        bracket_needs_pair[opening_bracket] -= 1
-      else
-        # found closing bracket before corresponding opening bracket => invalid
-        return true
-      end
+      # count the number of corresponding opening brackets
+      count = bracket_needs_pair[opening_bracket]
+      # found closing bracket before corresponding opening bracket => invalid
+      return true if count <= 0
+      # found a pair, decrement opening bracket's count
+      bracket_needs_pair[opening_bracket] -= 1 if count > 0
     end
   end
 end
