@@ -34,9 +34,10 @@ group :development, :test do
   gem "rspec-rails"
   gem "rubocop"
   gem "simplecov"
-  gem "guard-rspec", require: false
+  gem "byebug"
 end
 
 group :test do
   gem "shoulda-matchers"
+  gem "guard-rspec", require: false
 end
