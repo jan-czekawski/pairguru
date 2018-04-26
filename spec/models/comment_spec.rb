@@ -31,11 +31,9 @@ describe Comment do
 
   context "when user had already commented on selected movie" do
     it "is invalid" do
-      movie = create(:movie)
-      user = create(:user)
-      create(:comment, movie: movie, user: user)
-      comment = build(:comment, movie: movie, user: user)
-      expect(comment).not_to be_valid
+      comment = create(:comment)
+      new_comment = build(:comment, movie: comment.movie, user: comment.user)
+      expect(new_comment).not_to be_valid
     end
   end
 end
