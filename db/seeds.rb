@@ -85,11 +85,11 @@ end
 
 Rails.logger.info "Creating comments..."
 
-Movie.all.each do |movie|
-  5.times do |num|
-    movie.comments.create!(
-      user: User.find(num + 1),
-      content: Faker::Lorem.paragraph(2)
-    )
+count = Movie.count
+User.all.each do |usr|
+  Movie.first(rand(1..count)).each do |movie|
+    movie.comments.create!(user: usr, 
+                           content: Faker::Lorem.sentence(5, true),
+                           created_at: Faker::Date.between(10.days.ago, Time.zone.today))
   end
 end

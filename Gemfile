@@ -38,6 +38,7 @@ group :development, :test do
 end
 
 group :test do
+  gem "database_cleaner"
   gem "guard-rspec", require: false
   gem "shoulda-matchers"
 end
