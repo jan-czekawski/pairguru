@@ -3,10 +3,22 @@
   = @movie.description
 - if user_signed_in?
   %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'
-  = form_for([@movie, Comment.new]) do |f|
-    .form-group
-      = f.label :content
-      = f.text_area :content, class: "form-control"
-      = f.submit "Add comment", class: "btn btn-sm btn-primary"
-- @movie.comments.each do |comment|
-  = comment.content
+  - if current_user.hasnt_commented_on(@movie)
+    = form_for([@movie, Comment.new]) do |f|
+      .form-group
+        = f.label :content, "Comment"
+        = f.text_area :content, class: "form-control"
+        = f.submit "Add comment", class: "btn btn-sm btn-primary"
+%article
+  %h3.text-center Comments
+  - @movie.comments.each do |comment|
+    .panel.col-md-8.col-md-offset-2.col-lg-8.col-lg-offset-2
+      .panel-body= comment.content
+      .panel-footer
+        - if comment.user == current_user
+          = link_to "Delete", movie_comment_path(comment), class: "btn btn-sm btn-danger", method: :delete
+        %small.pull-right
+          = "added " + time_ago_in_words(comment.created_at)
+          = " ago by " + comment.user.name
+
+    

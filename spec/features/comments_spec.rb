@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 feature Comment, type: :feature do
-  scenario "add comment" do
+  include Warden::Test::Helpers
+  Warden.test_mode!
+
+  scenario "should be created" do
     user = create(:user)
     movie = create(:movie)
 
@@ -14,9 +17,22 @@ feature Comment, type: :feature do
     click_link "Movies"
     click_link movie.title
     expect do
-      fill_in "Content", with: Faker::Friends.quote
+      fill_in "Comment", with: Faker::Friends.quote
       click_button "Add comment"
     end.to change(Comment, :count).by(1)
     expect(page).to have_content movie.comments.last.content
+  end
+
+  scenario "should be deleted" do
+    comment = create(:comment)
+    login_as(comment.user)
+
+    visit root_path
+    click_link "Movies"
+    click_link comment.movie.title
+    expect(page).not_to have_button "Add comment"
+    expect { click_link "Delete" }.to change(Comment, :count).by(-1)
+    expect(page).not_to have_content comment.content
+    expect(page).to have_button "Add comment"
   end
 end
