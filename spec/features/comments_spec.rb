@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 feature Comment, type: :feature do
   include Warden::Test::Helpers
@@ -17,7 +17,7 @@ feature Comment, type: :feature do
     click_link "Movies"
     click_link movie.title
     expect do
-      fill_in "Comment", with: Faker::Friends.quote
+      fill_in "Comment", with: Faker::Lorem.sentence(20, true)
       click_button "Add comment"
     end.to change(Comment, :count).by(1)
     expect(page).to have_content movie.comments.last.content

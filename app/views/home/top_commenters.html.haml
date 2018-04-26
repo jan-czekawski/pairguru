@@ -1,0 +1,16 @@
+.row
+  .col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+    %h2.text-center.login-headline Users
+    %h4.text-center with most comments created this week 
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Place
+          %th Name
+          %th Comments
+      %tbody
+      - @commenters.each_with_index do |commenter, ix|
+        %tr
+          %td= (ix + 1).ordinalize
+          %td= commenter.name
+          %td= commenter.comments_count
