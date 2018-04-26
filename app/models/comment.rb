@@ -1,4 +1,5 @@
 class Comment < ApplicationRecord
+  include HandleErrors
   belongs_to :user
   belongs_to :movie
   validates :content, presence: true

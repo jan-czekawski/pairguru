@@ -25,4 +25,8 @@ class User < ApplicationRecord
 
   validates :phone_number, format: { with: /\A[+]?\d+(?>[- .]\d+)*\z/, allow_nil: true }
   has_many :comments, dependent: :destroy
+
+  def hasnt_commented_on(title)
+    comments.none? { |comment| comment.movie_id == title.id }
+  end
 end
