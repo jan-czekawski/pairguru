@@ -11,7 +11,7 @@
         = f.submit "Add comment", class: "btn btn-sm btn-primary"
 %article
   %h3.text-center Comments
-  - @movie.comments.each do |comment|
+  - @comments.each do |comment|
     .panel.col-md-8.col-md-offset-2.col-lg-8.col-lg-offset-2
       .panel-body= comment.content
       .panel-footer
