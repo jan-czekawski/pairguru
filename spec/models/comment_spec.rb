@@ -1,32 +1,36 @@
 require "rails_helper"
 
 describe Comment do
-  context "with all required information" do
-    it "is valid" do
-      comment = build(:comment)
+  shared_examples "has all required information" do
+    it "should be valid" do
       expect(comment).to be_valid
     end
   end
 
-  context "with no information about user" do
-    it "is invalid" do
-      comment = build(:comment, user: nil)
+  shared_examples "doesn't have all required information" do
+    it "should not be valid" do
       expect(comment).not_to be_valid
     end
   end
+  
+  context "with user_id, movie_id and content" do
+    let(:comment) { build(:comment) }
+    it_behaves_like "has all required information"
+  end
 
-  context "with no information about movie" do
-    it "is invalid" do
-      comment = build(:comment, movie: nil)
-      expect(comment).not_to be_valid
-    end
+  context "with no user_id" do
+    let(:comment) { build(:comment, user_id: nil) }
+    it_behaves_like "doesn't have all required information"
+  end
+
+  context "with no movie_id" do
+    let(:comment) { build(:comment, movie_id: nil) }
+    it_behaves_like "doesn't have all required information"
   end
 
   context "with no content" do
-    it "is invalid" do
-      comment = build(:comment, content: nil)
-      expect(comment).not_to be_valid
-    end
+    let(:comment) { build(:comment, content: nil) }
+    it_behaves_like "doesn't have all required information"
   end
 
   context "when user had already commented on selected movie" do
