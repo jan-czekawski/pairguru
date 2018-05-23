@@ -3,6 +3,15 @@
   = @movie.description
 - if user_signed_in?
   %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'
+  - if current_user.hasnt_graded_on(@movie)
+    = form_for([@movie, Grade.new]) do |f|
+      .form-group
+        = f.hidden_field(movie_id: @movie.id) 
+        = f.label :value, "Value"
+        = f.select(:value) do
+          - (1..5).each do |val|
+            = content_tag(:option, val)
+        = f.submit "Add grade", class: "btn btn-sm btn-primary"
   - if current_user.hasnt_commented_on(@movie)
     = form_for([@movie, Comment.new]) do |f|
       .form-group

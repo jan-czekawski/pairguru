@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'grades/create'
+  get 'grades/update'
+  get 'grades/destroy'
   devise_for :users
 
   root "home#welcome"
@@ -16,5 +19,6 @@ Rails.application.routes.draw do
       get :export
     end
     resources :comments, only: [:create, :destroy]
+    resources :grades, only: [:create, :update, :destroy]
   end
 end
